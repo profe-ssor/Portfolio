@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section id="contact" class="contact">
+        <div class="container">
+  
+          <div class="section-title">
+            <h2>Contact</h2>
+            <p>I'm thrilled that you stopped by my blog. Whether you have questions, want to discuss a tech topic, or just want to say hi, I'd love to hear from you. As a software engineer, I'm always excited to connect with fellow enthusiasts, developers, or anyone interested in the world of coding and technology.</p>
+          </div>
+  
+          <div class="row" data-aos="fade-in">
+  
+            <div class="col-lg-5 d-flex align-items-stretch">
+              <div class="info">
+                <div class="address">
+                  <i class="bi bi-geo-alt"></i>
+                  <h4>Location:</h4>
+                  <p>MangoPark Street, near Sefa Rose Hostel, Berlin-Top, Sunyani</p>
+                </div>
+  
+                <div class="email">
+                  <i class="bi bi-envelope"></i>
+                  <h4>Email:</h4>
+                  <p>kyerematengcollins93@gmail.com</p>
+                </div>
+  
+                <div class="phone">
+                  <i class="bi bi-phone"></i>
+                  <h4>Call:</h4>
+                  <p>+233 549 36 1771</p>
+                </div>
+  
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.472299012896!2d-2.0253969254293445!3d7.071110116558425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdb1d8f7dba2a9b%3A0xb48de32cd6ae3493!2sMagazine%20Junction!5e0!3m2!1sen!2sgh!4v1693801350261!5m2!1sen!2sgh" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+  
+            </div>
+  
+            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+              <form action="" method="POST" role="form" class="email-form">
+                <div class="row">
+              
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" required>
+              </div>
+              <div class="form-group">
+                <label for="name">Message</label>
+                <textarea class="form-control" name="message" rows="10" required></textarea>
+              </div>
+              
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+</body>
+</html>
