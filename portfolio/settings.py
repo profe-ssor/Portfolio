@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-=k^m@#z8o%$vfgvhxj^a-^lr@gf8y&t1aw2osyezsg7b025=7('
 )
 
- 'RENDER' not in os.environ
+'RENDER' not in os.environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
