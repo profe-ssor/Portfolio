@@ -1,8 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from . models import Customers
-from django.contrib import messages
+from django.conf import settings
 from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render
 
 
 # Create your views here.
@@ -26,7 +25,13 @@ def inner_page(request):
 
         From: {}
         '''.format(data['message'], data['email'])
-        send_mail(data['subject'], message, '', ['kyerematengcollins93@gmail.com'])
+        send_mail(
+            data["subject"],
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.CONTACT_RECIPIENT_EMAIL],
+            fail_silently=False,
+        )
         
      return render(request, "blog/inner-page.html")
 
