@@ -8,6 +8,7 @@ variables or a local .env file — never commit real values.
 """
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -105,6 +106,14 @@ import dj_database_url
 # Local: omit DATABASE_URL → SQLite. Production: set DATABASE_URL (e.g. on Render).
 _database_url = env.str("DATABASE_URL", default="").strip()
 if _database_url:
+    # Catch a common Render copy/paste mistake: host "dpg-xxxxx-a" without ".REGION-postgres.render.com"
+    _db_host = (urlparse(_database_url).hostname or "").strip()
+    if _db_host.startswith("dpg-") and "." not in _db_host:
+        raise ImproperlyConfigured(
+            f"DATABASE_URL hostname {_db_host!r} looks truncated. "
+            "Use the full Internal Database URL from Render: Postgres → Connect → "
+            "Internal Database URL (host must include e.g. .oregon-postgres.render.com)."
+        )
     DATABASES = {
         "default": dj_database_url.parse(_database_url, conn_max_age=600),
     }

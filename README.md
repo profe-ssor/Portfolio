@@ -45,6 +45,21 @@ python -c "from django.core.management.utils import get_random_secret_key; print
    python manage.py runserver
    ```
 
+## Render: Postgres `DATABASE_URL` (build fails on migrate)
+
+If you see **`could not translate host name "dpg-xxxxx-a"`** (no `.render.com`), your **`DATABASE_URL` on the Web Service is incomplete**.
+
+1. In the Render dashboard open your **PostgreSQL** instance (not the web service).
+2. Go to **Connect** (or **Info**).
+3. Copy the full **Internal Database URL** — it must look like:
+   `postgres://user:pass@dpg-xxxxx-a.oregon-postgres.render.com/dbname`  
+   (region may be `oregon`, `frankfurt`, etc.)
+4. In your **Web Service** → **Environment**, set `DATABASE_URL` to that **entire** string (one line, no spaces cut off).
+
+Link the DB to the service if Render offers **“Link database”** — it often injects the correct URL automatically.
+
+---
+
 ## Production (e.g. Render) — set these in the dashboard
 
 | Variable | Example / notes |
