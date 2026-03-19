@@ -2,12 +2,14 @@
 
 Django portfolio project.
 
+**Database:** SQLite only (no Postgres). The DB file is `db.sqlite3` next to `manage.py`.
+
 ## Security (before you push or deploy)
 
 - **Never commit** `.env`, `portfolio/.env`, database files, or `__pycache__`.
 - Copy **`.env.example`** → **`.env`** locally and fill in real values. Only **`.env.example`** belongs in git.
-- **Secrets live in environment variables** on Render (or any host): `SECRET_KEY`, `DATABASE_URL`, `EMAIL_HOST_PASSWORD`, etc.
-- If this repo was ever pushed with a **Gmail app password** or **production `SECRET_KEY`**, **revoke and regenerate** them in Google Account / your host dashboard — git history may still contain old values.
+- **Secrets on Render:** `SECRET_KEY`, `EMAIL_HOST_PASSWORD`, etc. — **remove `DATABASE_URL`** from the Web Service if it was added for Postgres (this app ignores it but old docs may have set it).
+- If credentials were ever committed, **rotate** them (Gmail App Passwords, etc.).
 
 ### Generate a new `SECRET_KEY` (production)
 
@@ -31,47 +33,32 @@ python -c "from django.core.management.utils import get_random_secret_key; print
 
    ```bash
    cp .env.example .env
-   # Edit .env — see comments inside .env.example
+   # Edit .env
    ```
-
-   - Leave **`DATABASE_URL`** empty for local **SQLite** (`db.sqlite3`).
-   - For **production**, set `DATABASE_URL` to your Postgres URL on the host.
 
 3. **Run**
 
    ```bash
    python manage.py migrate
-   python manage.py collectstatic --noinput   # production
+   python manage.py collectstatic --noinput   # production / Render build
    python manage.py runserver
    ```
 
-## Render: Postgres `DATABASE_URL` (build fails on migrate)
+## Render (SQLite)
 
-If you see **`could not translate host name "dpg-xxxxx-a"`** (no `.render.com`), your **`DATABASE_URL` on the Web Service is incomplete**.
+1. In your **Web Service** → **Environment**, **delete** `DATABASE_URL` if it exists (leftover Postgres).
+2. Set `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS` (e.g. `your-app.onrender.com,.onrender.com`).
+3. Optional: email variables for the contact form.
 
-1. In the Render dashboard open your **PostgreSQL** instance (not the web service).
-2. Go to **Connect** (or **Info**).
-3. Copy the full **Internal Database URL** — it must look like:
-   `postgres://user:pass@dpg-xxxxx-a.oregon-postgres.render.com/dbname`  
-   (region may be `oregon`, `frankfurt`, etc.)
-4. In your **Web Service** → **Environment**, set `DATABASE_URL` to that **entire** string (one line, no spaces cut off).
+**Note:** On Render, the filesystem is often **ephemeral** — `db.sqlite3` may be **reset on each deploy** unless you add a [persistent disk](https://render.com/docs/disks) and point the DB file there (advanced). For a mostly static portfolio this is usually fine.
 
-Link the DB to the service if Render offers **“Link database”** — it often injects the correct URL automatically.
-
----
-
-## Production (e.g. Render) — set these in the dashboard
-
-| Variable | Example / notes |
-|----------|------------------|
-| `SECRET_KEY` | Long random string (see above) |
-| `DEBUG` | `False` |
-| `ALLOWED_HOSTS` | `your-app.onrender.com,.onrender.com` |
-| `DATABASE_URL` | Provided when you add Postgres |
-| `EMAIL_HOST_USER` | Your Gmail address |
-| `EMAIL_HOST_PASSWORD` | Gmail **App Password**, not your login password |
-| `DEFAULT_FROM_EMAIL` | Same as `EMAIL_HOST_USER` usually |
-| `CONTACT_RECIPIENT_EMAIL` | Inbox for contact form (optional) |
+| Variable | Notes |
+|----------|--------|
+| `SECRET_KEY` | Required when `DEBUG=False` |
+| `DEBUG` | `False` in production |
+| `ALLOWED_HOSTS` | Your Render hostname(s) |
+| `EMAIL_*` | Optional; for SMTP contact form |
+| `CONTACT_RECIPIENT_EMAIL` | Optional |
 
 ## Windows
 
