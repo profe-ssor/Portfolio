@@ -22,6 +22,8 @@ __pycache__/
 *.log
 db.sqlite3
 media/
+# Never commit collectstatic output — Render rebuilds each deploy; avoids stale CSS/images
+staticfiles/
 
 # IDE
 .idea/
