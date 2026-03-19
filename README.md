@@ -44,6 +44,8 @@ python -c "from django.core.management.utils import get_random_secret_key; print
    python manage.py runserver
    ```
 
+Static files in production are served by **WhiteNoise** (`CompressedStaticFilesStorage`). The build must run **`collectstatic`** (already in `portfolio/build.sh`).
+
 ## Render (SQLite)
 
 1. In your **Web Service** → **Environment**, **delete** `DATABASE_URL` if it exists (leftover Postgres).
